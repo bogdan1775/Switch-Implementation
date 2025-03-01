@@ -1,0 +1,17 @@
+1 2 3
+Am rezolvat toate cerintele
+# Croitoru Constantin-Bogdan
+# grupa 334CA
+
+Cerinta 1:
+Pentru rezolvarea primei cerinte am urmat pasii din pseudocodul de pe ocw. Pentru verificarea daca este unicast mi-am facut o functie ajutatoare "is_unicast(mac)" care verifica daca primul bit din stanga din primul octet este 0 (verific restul impartirii la 2). Daca este unicast si se gaseste in tabela MAC atunci sa trimite pe interfata retinuta in tabela mac, iar daca nu se trimite pe toate interfetele mai putin pe cea pe care a venit, la fel si in cazul in care nu e unicast.
+
+Cerinta 2:
+La aceasta am modificat implementarea de la cerinta 1, asa incat sa tina cont de vlan. Logica e implementata in functia "forwarding_function_vlan()". In interiorul acesteia, prima data construiesc pachetul. Daca interfata pe care a venit este trunk atunci data1 nu v-a contine tag-ul scotandu-l, iar data2 va contine tag-ul, iar daca nu a fost trunk, logica este aceeasi doar ca la data2 i se va creea tag-ul cu ajutorul functiei "create_vlan_tag". In continuare logica este aceeasi ca la cerinta 1, doar ca verifica daca este trunk, iar daca nu este trunk verifica sa fie acelasi vlan.
+
+Cerinta 3:
+Pentru aceasta am implementat logica in "STP_function" si in functia "send_bdpu_every_sec()". In aceasta functie urmez exact pasii din pseudocod. Cand construiesc cadrul BPDU folosesc exemplul de structura dat, iar cand primesc pachetul extrag doar ce imi trebuie si anume: BPDU_root_bridge_ID, BPDU_sender_path_cost, BPDU_sender_bridge_ID.
+
+In main, initial verific daca mac-ul dest este 01:80:C2:00:00:00 pentru a vedea daca este un cadru BPDU. In caz pozitiv, apelez functia "STP_function()". In continuare in main, daca nu e o adesa pentru BPDU, retin in dictionarul MAC_table corespodenta mac interfata si apelez functia forwarding_function_vlan.
+Tot in main, pana a intra in bucla while(1), citesc din fisier configurarea switch-ului si o retin in dictionarul "vlan_table".
+
